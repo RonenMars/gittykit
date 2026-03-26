@@ -1,0 +1,123 @@
+/* Starlight theme overrides */
+
+/* Accent + fonts — shared across both themes */
+:root {
+  --sl-color-accent-low:    #7c2d12;
+  --sl-color-accent:        #f97316;
+  --sl-color-accent-high:   #fed7aa;
+  --sl-nav-height: 60px;
+  --sl-font-system:         -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --sl-font-mono:           "SF Mono", "Fira Code", ui-monospace, monospace;
+}
+
+/* Dark theme — GitHub-style palette */
+[data-theme='dark'] {
+  --sl-color-white:         #ffffff;
+  --sl-color-gray-1:        #f0f6fc;
+  --sl-color-gray-2:        #cdd9e5;
+  --sl-color-gray-3:        #768390;
+  --sl-color-gray-4:        #2d333b;
+  --sl-color-gray-5:        #1c2128;
+  --sl-color-gray-6:        #0d1117;
+  --sl-color-black:         #010409;
+  --sl-color-bg:            #0d1117;
+  --sl-color-bg-nav:        #161b22;
+  --sl-color-bg-sidebar:    #161b22;
+}
+
+/* Match topbar height + fix sidebar gap */
+header.header {
+  height: 60px !important;
+  padding-inline: 2rem !important;
+}
+
+/* Match homepage nav gap: GitHub icon → next element */
+.right-group {
+  gap: 1rem;
+}
+
+/* GitHub icon in docs topbar */
+/* Light: --sl-color-white = #17181c on #fff = 18:1 (AAA). Hover: #c2500a on #fff = 4.6:1 (AA) */
+/* Dark:  #ffffff on #161b22 = 15.3:1 (AAA). Hover: #f97316 on #161b22 = 8.2:1 (AA) */
+.social-icons a {
+  color: var(--sl-color-white) !important;
+  transition: color 0.15s ease;
+}
+.social-icons a svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+[data-theme='dark'] .social-icons a {
+  color: var(--sl-color-white) !important;
+}
+.social-icons a:hover {
+  color: #c2500a !important;
+}
+[data-theme='dark'] .social-icons a:hover {
+  color: #f97316 !important;
+}
+
+/* Sidebar nav links */
+.sidebar-content a,
+nav.sidebar a {
+  color: var(--sl-color-gray-2) !important;
+}
+
+.sidebar-content a:hover,
+nav.sidebar a:hover {
+  color: var(--sl-color-gray-1) !important;
+}
+
+/* Active / current page link */
+.sidebar-content a[aria-current='page'],
+nav.sidebar a[aria-current='page'] {
+  color: var(--sl-color-accent) !important;
+  background-color: rgba(249, 115, 22, 0.12) !important;
+}
+
+/* Sidebar group labels */
+.sidebar-content summary,
+.sidebar-content .group-label span,
+nav.sidebar details > summary {
+  color: var(--sl-color-gray-1) !important;
+  font-weight: 600;
+}
+
+/* "On this page" TOC links */
+starlight-toc a,
+.right-sidebar a {
+  color: var(--sl-color-gray-2) !important;
+}
+
+starlight-toc a:hover,
+.right-sidebar a:hover {
+  color: var(--sl-color-gray-1) !important;
+}
+
+starlight-toc a[aria-current='true'],
+.right-sidebar a[aria-current='true'] {
+  color: #f47c35 !important;
+}
+
+/* "On this page" heading label */
+.right-sidebar-panel .sl-container > p,
+starlight-toc nav > p {
+  color: var(--sl-color-gray-1) !important;
+  font-weight: 600;
+}
+
+/* Visible focus rings for keyboard navigation */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--sl-color-accent) !important;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* Skip link (Starlight injects one automatically, ensure it's visible) */
+.sl-skip-link:focus {
+  background: var(--sl-color-accent);
+  color: #fff;
+}

@@ -1,0 +1,463 @@
+---
+import { Code } from 'astro:components';
+
+const githubIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.72-4.04-1.61-4.04-1.61-.54-1.38-1.33-1.74-1.33-1.74-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.8 1.3 3.49.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>`;
+
+const installSnippet = `dependencies: [
+    .package(url: "https://github.com/RonenMars/Gitty", from: "0.1.0"),
+]`;
+
+const codeSnippet = `import Gitty
+
+// Clone a private repo
+let repo = try await Repository.clone(
+    from: URL(string: "https://github.com/user/repo")!,
+    to: localURL,
+    credentials: .token("ghp_yourtoken")
+)
+
+// Stage all changes and commit
+let author = Signature(name: "Alice", email: "alice@example.com")
+try repo.stageAll()
+let commit = try repo.commit(message: "feat: add login", author: author)
+
+// Merge a branch and handle the result
+switch try repo.merge(branch: branch) {
+case .fastForward(let c): print("Fast-forwarded to", c.oid.shortString)
+case .merged(let c):      print("Merged:", c.oid.shortString)
+case .conflict(let files): print("Conflicts:", files.map(\.path))
+default: break
+}`;
+---
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Gitty — Async-first Git for Swift. A modern libgit2 wrapper, SPM-native, for iOS & macOS." />
+  <title>Gitty — Async-first Git for Swift</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script src="/a11y-widget.js" defer></script>
+</head>
+<body>
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav aria-label="Main navigation">
+    <a href="/" class="nav-brand">Git<span>ty</span></a>
+    <div class="nav-links">
+      <a href="/docs/overview">Docs</a>
+      <a href="/docs/guides/repository">Guides</a>
+      <a href="https://github.com/RonenMars/Gitty" class="github-icon-link" aria-label="Gitty on GitHub"><Fragment set:html={githubIcon} /></a>
+      <a href="/docs/overview" class="btn btn-primary">Get Started</a>
+    </div>
+  </nav>
+
+  <main id="main-content">
+
+  <section class="hero">
+    <div class="badge">SPM-native &middot; iOS &amp; macOS &middot; libgit2</div>
+    <h1>Async-first <em>Git</em><br />for Swift</h1>
+    <p class="hero-sub">
+      A modern, type-safe libgit2 wrapper. Branches, commits, diffs, merge, rebase, stash &mdash; all with a clean Swift API.
+    </p>
+    <div class="hero-actions">
+      <a href="/docs/overview" class="btn btn-primary">Get Started</a>
+      <a href="https://github.com/RonenMars/Gitty" class="btn btn-ghost"><Fragment set:html={githubIcon} /> View on GitHub</a>
+    </div>
+  </section>
+
+  <div class="install-block">
+    <div class="install-header">
+      <div class="dots">
+        <div class="dot dot-red"></div>
+        <div class="dot dot-amber"></div>
+        <div class="dot dot-green"></div>
+      </div>
+      <span>Package.swift</span>
+      <span></span>
+    </div>
+    <div class="install-code"><Code code={installSnippet} lang="swift" theme="github-dark" /></div>
+  </div>
+
+  <section class="features">
+    <div class="section-label">Features</div>
+    <h2 class="section-title">Everything Git, in Swift</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">&#9889;</div>
+        <h3>Async-first</h3>
+        <p>Clone, fetch, and push with native Swift concurrency. Synchronous operations stay fast and simple.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">&#128230;</div>
+        <h3>Zero dependencies</h3>
+        <p>Bundles libgit2 as a pure SPM package. No Homebrew, no CMake, no system setup required.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">&#128274;</div>
+        <h3>Type-safe errors</h3>
+        <p>All libgit2 error codes surface as <code>GittyError</code>. No silent failures, no raw integer codes.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">&#127807;</div>
+        <h3>Full branch &amp; remote support</h3>
+        <p>Create, delete, rename, checkout. Manage multiple remotes, fetch, and push with credentials.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">&#128256;</div>
+        <h3>Merge, Rebase &amp; Cherry-pick</h3>
+        <p>Typed merge results &mdash; up-to-date, fast-forward, merged, or conflict. Full rebase and cherry-pick support.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">&#128269;</div>
+        <h3>Diff &amp; Blame</h3>
+        <p>Typed hunks and lines from any diff. Blame any file to trace changes back to their original commit.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">&#127991;</div>
+        <h3>Tags &amp; Stash</h3>
+        <p>Lightweight and annotated tags. Full stash push, pop, apply, drop, and list.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">&#128193;</div>
+        <h3>Worktrees</h3>
+        <p>Add, remove, lock, and unlock linked working trees for parallel branch workflows.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" aria-hidden="true">&#128273;</div>
+        <h3>Flexible credentials</h3>
+        <p>Token, username/password, SSH agent, or system credential helper &mdash; all supported out of the box.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="code-section" aria-label="API example">
+    <p class="section-label" aria-hidden="true">Example</p>
+    <h2 class="section-title">A taste of the API</h2>
+    <Code code={codeSnippet} lang="swift" theme="github-dark" />
+  </section>
+
+  <section class="cta">
+    <h2>Start building with Gitty</h2>
+    <p>Add it to your Swift project in seconds. No system setup required.</p>
+    <div class="cta-actions">
+      <a href="/docs/overview" class="btn btn-primary">Read the Docs</a>
+      <a href="https://github.com/RonenMars/Gitty" class="btn btn-ghost"><Fragment set:html={githubIcon} /> View on GitHub</a>
+    </div>
+  </section>
+
+  </main>
+
+  <footer>
+    <p>
+      Gitty is open source under the MIT License &middot;
+      <a href="https://github.com/RonenMars/Gitty">GitHub</a> &middot;
+      Built on <a href="https://libgit2.org">libgit2</a>
+    </p>
+  </footer>
+
+</body>
+</html>
+
+<style is:global>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0d1117;
+    --bg2: #161b22;
+    --border: #30363d;
+    --accent: #f97316;
+    --accent2: #fb923c;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --code-bg: #1c2128;
+    --radius: 8px;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    line-height: 1.6;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    height: 60px;
+    background: rgba(13, 17, 23, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-brand {
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  .nav-brand span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .nav-links a:not(.btn) {
+    color: var(--text) !important;
+    font-size: 0.9rem;
+    transition: color 0.15s;
+  }
+
+  .nav-links a:not(.btn):hover { color: var(--text-muted) !important; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.45rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+    cursor: pointer;
+    border: none;
+  }
+
+  /* Nav-specific: compact size matching docs theme selector (~34px height) */
+  nav .btn {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  /* Skip to content */
+  .skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    padding: 0.5rem 1rem;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 0 0 var(--radius) var(--radius);
+    font-weight: 600;
+    font-size: 0.875rem;
+    z-index: 10000;
+    transition: top 0.1s;
+  }
+  .skip-link:focus { top: 0; }
+
+  /* Visible focus rings for keyboard navigation */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 3px;
+  }
+
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent2); }
+  .nav-links .btn-primary { color: #fff; }
+
+  .btn-ghost {
+    background: transparent;
+    color: #ffffff;
+    border: 1px solid #6e7681;
+  }
+  .btn-ghost:hover { color: #ffffff; border-color: #ffffff; background: rgba(255,255,255,0.08); }
+
+  .btn svg, .nav-links a svg { vertical-align: middle; margin-bottom: 2px; }
+
+  .github-icon-link { color: #ffffff; }
+  .github-icon-link:hover { color: #c9d1d9; }
+  .github-icon-link svg { width: 20px; height: 20px; }
+
+  .hero {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 6rem 2rem 4rem;
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: rgba(249, 115, 22, 0.15);
+    color: var(--accent);
+    border: 1px solid rgba(249, 115, 22, 0.3);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.04em;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+  }
+
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent), #facc15);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 540px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-actions .btn { font-size: 1rem; padding: 0.65rem 1.5rem; }
+
+  .install-block {
+    max-width: 680px;
+    margin: 3rem auto;
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .install-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 1rem;
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .install-header .dots { display: flex; gap: 6px; }
+  .install-header .dot { width: 11px; height: 11px; border-radius: 50%; }
+  .dot-red   { background: #ff5f57; }
+  .dot-amber { background: #febc2e; }
+  .dot-green { background: #28c840; }
+
+  .install-code {
+    padding: 1.25rem 1.5rem;
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--text);
+    overflow-x: auto;
+  }
+
+  .features {
+    max-width: 1000px;
+    margin: 2rem auto 5rem;
+    padding: 0 2rem;
+  }
+
+  .section-label {
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 3rem;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .feature-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    transition: border-color 0.15s;
+  }
+
+  .feature-card:hover { border-color: var(--accent); }
+  .feature-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
+  .feature-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .feature-card p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.5; }
+
+  .code-section {
+    max-width: 800px;
+    margin: 0 auto 6rem;
+    padding: 0 2rem;
+  }
+
+  .code-section pre,
+  .install-code {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    overflow-x: auto;
+    font-family: "SF Mono", "Fira Code", monospace;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--text);
+  }
+
+  .install-block .install-code {
+    border: none;
+    border-radius: 0;
+  }
+
+  .cta {
+    text-align: center;
+    padding: 5rem 2rem;
+    background: var(--bg2);
+    border-top: 1px solid var(--border);
+  }
+
+  .cta h2 {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+
+  .cta p { color: var(--text-muted); margin-bottom: 2rem; font-size: 1.05rem; }
+  .cta-actions { display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap; }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    border-top: 1px solid var(--border);
+  }
+
+  footer a { color: var(--text-muted); }
+  footer a:hover { color: var(--text); }
+</style>

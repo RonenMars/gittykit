@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Background -->
+  <rect width="32" height="32" rx="7" fill="#161b22"/>
+  <!-- Main branch: top node -->
+  <circle cx="11" cy="8" r="2.8" fill="#f97316"/>
+  <!-- Main branch: vertical line -->
+  <line x1="11" y1="10.9" x2="11" y2="21.1" stroke="#f97316" stroke-width="2.2" stroke-linecap="round"/>
+  <!-- Main branch: bottom node -->
+  <circle cx="11" cy="24" r="2.8" fill="#f97316"/>
+  <!-- Feature branch: node (top-right) -->
+  <circle cx="23" cy="10" r="2.8" fill="#f97316"/>
+  <!-- Branch curve: from point on main line up to feature node -->
+  <path d="M11 15 C11 10 20.2 10 20.2 10" stroke="#f97316" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+</svg>
